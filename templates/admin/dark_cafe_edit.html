@@ -1,0 +1,73 @@
+{% extends "admin/layout.html" %}
+{% block title %}{{ 'Редагувати' if item.id else 'Додати' }} елемент темного кафе{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <h3><i class="fas fa-moon me-2"></i> {{ 'Редагування' if item.id else 'Новий елемент' }}</h3>
+    
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Назва *</label>
+                    <input type="text" name="title" class="form-control" value="{{ item.title or '' }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Опис *</label>
+                    <textarea name="description" class="form-control" rows="4" required>{{ item.description or '' }}</textarea>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Іконка (Font Awesome)</label>
+                    <div class="input-group">
+                        <input type="text" name="icon" class="form-control" value="{{ item.icon or 'fa-moon' }}" placeholder="fa-moon">
+                        <span class="input-group-text"><i class="fas {{ item.icon or 'fa-moon' }}"></i></span>
+                    </div>
+                    <small class="text-muted">Приклади: fa-moon, fa-wine-glass-alt, fa-film</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Додаткова інформація</label>
+                    <input type="text" name="extra_info" class="form-control" value="{{ item.extra_info or '' }}" placeholder="Наприклад: 18:00 - 23:00">
+                    <small class="text-muted">Час, ціна або розклад</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Порядок сортування</label>
+                    <input type="number" name="order" class="form-control" value="{{ item.order or 0 }}">
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" {% if item.is_active %}checked{% endif %}>
+                    <label class="form-check-label" for="is_active">Активний елемент</label>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Зберегти
+            </button>
+            <a href="{{ url_for('admin_dark_cafe') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Назад
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Preview icon
+    const iconInput = document.querySelector('input[name="icon"]');
+    const iconPreview = document.querySelector('.input-group-text i');
+    if (iconInput && iconPreview) {
+        iconInput.addEventListener('input', function() {
+            const iconClass = this.value;
+            iconPreview.className = `fas ${iconClass}`;
+        });
+    }
+</script>
+{% endblock %}

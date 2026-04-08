@@ -1,0 +1,109 @@
+{# templates/admin/login.html #}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід в адмін-панель | Manolo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0A0A0A, #1a1a1a);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .login-card {
+            background: rgba(21, 21, 21, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(210, 105, 30, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        .login-card h2 {
+            color: #D2691E;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .login-card .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-card .logo i {
+            font-size: 3rem;
+            color: #D2691E;
+        }
+        .form-control {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 12px 20px;
+        }
+        .form-control:focus {
+            background: rgba(255,255,255,0.1);
+            border-color: #D2691E;
+            box-shadow: 0 0 10px rgba(210,105,30,0.3);
+            color: white;
+        }
+        .btn-login {
+            background: linear-gradient(135deg, #D2691E, #8B4513);
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            width: 100%;
+        }
+        .btn-login:hover {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+        }
+        .alert {
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo">
+            <i class="fas fa-crown"></i>
+            <h2>Manolo Admin</h2>
+            <p class="text-white-50">Вхід в панель керування</p>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'danger' else 'info' }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST">
+            <div class="mb-3">
+                <input type="text" name="username" class="form-control" placeholder="Ім'я користувача" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Пароль" required>
+            </div>
+            <button type="submit" class="btn btn-login text-white">
+                <i class="fas fa-sign-in-alt me-2"></i> Увійти
+            </button>
+        </form>
+        
+        <div class="text-center mt-4">
+            <small class="text-white-50">
+                <i class="fas fa-shield-alt me-1"></i> Захищена адмін-панель
+            </small>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

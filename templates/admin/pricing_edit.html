@@ -1,0 +1,143 @@
+{% extends "admin/layout.html" %}
+{% block title %}{{ 'Редагувати' if package.id else 'Додати' }} пакет{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <h3><i class="fas fa-tag me-2"></i> {{ 'Редагування' if package.id else 'Новий пакет' }}</h3>
+    
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Назва пакету *</label>
+                    <input type="text" name="name" class="form-control" value="{{ package.name or '' }}" required>
+                    <small class="text-muted">Наприклад: Light, Gold, Elite</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Підзаголовок</label>
+                    <input type="text" name="subtitle" class="form-control" value="{{ package.subtitle or '' }}">
+                    <small class="text-muted">Наприклад: Для повсякденної краси</small>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Ціна *</label>
+                            <input type="number" name="price" class="form-control" value="{{ package.price or 0 }}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="form-label">Валюта</label>
+                            <input type="text" name="currency" class="form-control" value="{{ package.currency or '₴' }}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="form-label">Період</label>
+                            <input type="text" name="period" class="form-control" value="{{ package.period or 'сесія' }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Бейдж</label>
+                    <select name="badge" class="form-select">
+                        <option value="">Без бейджу</option>
+                        <option value="Найпопулярніший" {% if package.badge == 'Найпопулярніший' %}selected{% endif %}>Найпопулярніший</option>
+                        <option value="Краще співвідношення" {% if package.badge == 'Краще співвідношення' %}selected{% endif %}>Краще співвідношення</option>
+                        <option value="Люкс пакет" {% if package.badge == 'Люкс пакет' %}selected{% endif %}>Люкс пакет</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Порядок сортування</label>
+                    <input type="number" name="order" class="form-control" value="{{ package.order or 0 }}">
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_featured" class="form-check-input" id="is_featured" {% if package.is_featured %}checked{% endif %}>
+                    <label class="form-check-label" for="is_featured">Рекомендований пакет (виділений)</label>
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" {% if package.is_active %}checked{% endif %}>
+                    <label class="form-check-label" for="is_active">Активний пакет</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Переваги пакету (список)</label>
+            <div id="features-list">
+                {% set features_list = features if features else [] %}
+                {% for feature in features_list %}
+                <div class="input-group mb-2">
+                    <input type="text" name="features[]" class="form-control" value="{{ feature }}">
+                    <button type="button" class="btn btn-outline-danger remove-feature">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                {% endfor %}
+                {% if not features_list %}
+                <div class="input-group mb-2">
+                    <input type="text" name="features[]" class="form-control" placeholder="Нова перевага">
+                    <button type="button" class="btn btn-outline-danger remove-feature">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="add-feature">
+                <i class="fas fa-plus me-1"></i> Додати перевагу
+            </button>
+        </div>
+        
+        <hr>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Зберегти
+            </button>
+            <a href="{{ url_for('admin_pricing') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Назад
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('add-feature')?.addEventListener('click', function() {
+        const container = document.getElementById('features-list');
+        const div = document.createElement('div');
+        div.className = 'input-group mb-2';
+        div.innerHTML = `
+            <input type="text" name="features[]" class="form-control" placeholder="Нова перевага">
+            <button type="button" class="btn btn-outline-danger remove-feature">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        container.appendChild(div);
+        attachRemoveEvents();
+    });
+    
+    function attachRemoveEvents() {
+        document.querySelectorAll('.remove-feature').forEach(btn => {
+            btn.removeEventListener('click', removeFeature);
+            btn.addEventListener('click', removeFeature);
+        });
+    }
+    
+    function removeFeature(e) {
+        if (document.querySelectorAll('.remove-feature').length > 1) {
+            this.closest('.input-group')?.remove();
+        } else {
+            this.closest('.input-group')?.querySelector('input').value = '';
+        }
+    }
+    
+    attachRemoveEvents();
+</script>
+{% endblock %}

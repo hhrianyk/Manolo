@@ -1,0 +1,137 @@
+{% extends "admin/layout.html" %}
+{% block title %}Дашборд{% endblock %}
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ total_services }}</h3>
+            <p>Послуг</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-concierge-bell"></i>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ total_pricing }}</h3>
+            <p>Цінових пакетів</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-tags"></i>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ total_team }}</h3>
+            <p>Команди</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ total_gallery }}</h3>
+            <p>Фото в галереї</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-images"></i>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ total_contacts }}</h3>
+            <p>Нових заявок</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-envelope"></i>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ total_requests }}</h3>
+            <p>Всього заявок</p>
+        </div>
+        <div class="stat-icon">
+            <i class="fas fa-database"></i>
+        </div>
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4><i class="fas fa-clock me-2"></i> Останні заявки</h4>
+        <a href="{{ url_for('admin_contacts') }}" class="btn btn-sm btn-outline-secondary">Всі заявки</a>
+    </div>
+    {% if recent_requests %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Ім'я</th>
+                    <th>Телефон</th>
+                    <th>Послуга</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in recent_requests %}
+                <tr>
+                    <td>{{ req.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td><strong>{{ req.name }}</strong></td>
+                    <td>{{ req.phone }}</td>
+                    <td>{{ req.service or '-' }}</td>
+                    <td>
+                        {% if req.is_read %}
+                        <span class="badge bg-secondary">Прочитано</span>
+                        {% else %}
+                        <span class="badge bg-warning">Нове</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-muted">Немає нових заявок</p>
+    {% endif %}
+</div>
+
+<div class="admin-card">
+    <h4><i class="fas fa-info-circle me-2"></i> Швидкі дії</h4>
+    <div class="row mt-3">
+        <div class="col-md-2 col-6 mb-2">
+            <a href="{{ url_for('admin_hero') }}" class="btn btn-outline-primary w-100">
+                <i class="fas fa-home me-1"></i> Hero
+            </a>
+        </div>
+        <div class="col-md-2 col-6 mb-2">
+            <a href="{{ url_for('admin_services') }}" class="btn btn-outline-primary w-100">
+                <i class="fas fa-plus me-1"></i> Послугу
+            </a>
+        </div>
+        <div class="col-md-2 col-6 mb-2">
+            <a href="{{ url_for('admin_pricing') }}" class="btn btn-outline-primary w-100">
+                <i class="fas fa-tag me-1"></i> Пакет
+            </a>
+        </div>
+        <div class="col-md-2 col-6 mb-2">
+            <a href="{{ url_for('admin_team') }}" class="btn btn-outline-primary w-100">
+                <i class="fas fa-user-plus me-1"></i> Команду
+            </a>
+        </div>
+        <div class="col-md-2 col-6 mb-2">
+            <a href="{{ url_for('admin_gallery') }}" class="btn btn-outline-primary w-100">
+                <i class="fas fa-image me-1"></i> Фото
+            </a>
+        </div>
+        <div class="col-md-2 col-6 mb-2">
+            <a href="{{ url_for('admin_settings') }}" class="btn btn-outline-primary w-100">
+                <i class="fas fa-cog me-1"></i> Налаштування
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

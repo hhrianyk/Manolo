@@ -1,0 +1,104 @@
+{# templates/admin/colors.html #}
+{% extends "admin/layout.html" %}
+{% block title %}Кольорова палітра{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="fas fa-palette me-2"></i> Кольорова палітра сайту</h3>
+        <a href="{{ url_for('admin_reset_colors') }}" class="btn btn-warning" onclick="return confirm('Скинути кольори до стандартних?')">
+            <i class="fas fa-undo me-2"></i> Скинути до стандартних
+        </a>
+    </div>
+    
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Темний фон (головний)</label>
+                <div class="input-group">
+                    <input type="color" name="bg_deep" class="form-control form-control-color w-25" value="{{ colors.bg_deep }}">
+                    <input type="text" name="bg_deep_text" class="form-control" value="{{ colors.bg_deep }}" readonly>
+                </div>
+                <small class="text-muted">Використовується для основного фону сайту</small>
+                <div class="mt-2 p-3 rounded" style="background: {{ colors.bg_deep }}; color: white;">Приклад тексту</div>
+            </div>
+            
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Світлий фон (поверхня)</label>
+                <div class="input-group">
+                    <input type="color" name="bg_surface" class="form-control form-control-color w-25" value="{{ colors.bg_surface }}">
+                    <input type="text" name="bg_surface_text" class="form-control" value="{{ colors.bg_surface }}" readonly>
+                </div>
+                <small class="text-muted">Використовується для карток та секцій</small>
+                <div class="mt-2 p-3 rounded" style="background: {{ colors.bg_surface }}; color: white;">Приклад тексту</div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <label class="form-label fw-bold">Шоколадний (основний)</label>
+                <div class="input-group">
+                    <input type="color" name="chocolate" class="form-control form-control-color w-25" value="{{ colors.chocolate }}">
+                    <input type="text" name="chocolate_text" class="form-control" value="{{ colors.chocolate }}" readonly>
+                </div>
+                <div class="mt-2 p-3 rounded" style="background: {{ colors.chocolate }}; color: white;">Приклад тексту</div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <label class="form-label fw-bold">Шоколадний світлий</label>
+                <div class="input-group">
+                    <input type="color" name="chocolate_light" class="form-control form-control-color w-25" value="{{ colors.chocolate_light }}">
+                    <input type="text" name="chocolate_light_text" class="form-control" value="{{ colors.chocolate_light }}" readonly>
+                </div>
+                <div class="mt-2 p-3 rounded" style="background: {{ colors.chocolate_light }}; color: white;">Приклад тексту</div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <label class="form-label fw-bold">Шоколадний темний</label>
+                <div class="input-group">
+                    <input type="color" name="chocolate_dark" class="form-control form-control-color w-25" value="{{ colors.chocolate_dark }}">
+                    <input type="text" name="chocolate_dark_text" class="form-control" value="{{ colors.chocolate_dark }}" readonly>
+                </div>
+                <div class="mt-2 p-3 rounded" style="background: {{ colors.chocolate_dark }}; color: white;">Приклад тексту</div>
+            </div>
+            
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Основний текст</label>
+                <div class="input-group">
+                    <input type="color" name="text_main" class="form-control form-control-color w-25" value="{{ colors.text_main }}">
+                    <input type="text" name="text_main_text" class="form-control" value="{{ colors.text_main }}" readonly>
+                </div>
+                <div class="mt-2 p-3 rounded" style="background: #333; color: {{ colors.text_main }};">Приклад тексту</div>
+            </div>
+            
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Другорядний текст</label>
+                <div class="input-group">
+                    <input type="color" name="text_body" class="form-control form-control-color w-25" value="{{ colors.text_body }}">
+                    <input type="text" name="text_body_text" class="form-control" value="{{ colors.text_body }}" readonly>
+                </div>
+                <div class="mt-2 p-3 rounded" style="background: #333; color: {{ colors.text_body }};">Приклад тексту</div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Зберегти кольори
+            </button>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary" target="_blank">
+                <i class="fas fa-eye me-2"></i> Переглянути зміни
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Sync color inputs
+    const colorInputs = document.querySelectorAll('input[type="color"]');
+    colorInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const textInput = this.parentElement.querySelector('input[type="text"]');
+            if (textInput) textInput.value = this.value;
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "admin/layout.html" %}
+{% block title %}{{ 'Редагувати' if image.id else 'Додати' }} фото{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <h3><i class="fas fa-image me-2"></i> {{ 'Редагування' if image.id else 'Нове фото' }}</h3>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="mb-3">
+                    <label class="form-label">Назва</label>
+                    <input type="text" name="title" class="form-control" value="{{ image.title or '' }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Опис</label>
+                    <textarea name="description" class="form-control" rows="3">{{ image.description or '' }}</textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Категорія</label>
+                            <select name="category" class="form-select">
+                                <option value="general" {% if image.category == 'general' %}selected{% endif %}>Загальне</option>
+                                <option value="interior" {% if image.category == 'interior' %}selected{% endif %}>Інтер'єр</option>
+                                <option value="beauty" {% if image.category == 'beauty' %}selected{% endif %}>Б'юті</option>
+                                <option value="events" {% if image.category == 'events' %}selected{% endif %}>Події</option>
+                                <option value="dolls" {% if image.category == 'dolls' %}selected{% endif %}>Ляльки</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Кількість лайків</label>
+                            <input type="number" name="likes" class="form-control" value="{{ image.likes or 0 }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Порядок сортування</label>
+                            <input type="number" name="order" class="form-control" value="{{ image.order or 0 }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" {% if image.is_active %}checked{% endif %}>
+                    <label class="form-check-label" for="is_active">Активне фото</label>
+                </div>
+            </div>
+            
+            <div class="col-md-5">
+                <div class="mb-3">
+                    <label class="form-label">Зображення</label>
+                    {% if image.image %}
+                    <div class="mb-2 text-center">
+                        <img src="{{ url_for('static', filename=image.image) }}" class="img-fluid rounded" style="max-height: 250px;">
+                    </div>
+                    {% endif %}
+                    <input type="file" name="image" class="form-control" accept="image/*" {% if not image.image %}required{% endif %}>
+                    <small class="text-muted">Рекомендований розмір: 800x800px</small>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Зберегти
+            </button>
+            <a href="{{ url_for('admin_gallery') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Назад
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

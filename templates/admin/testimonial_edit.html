@@ -1,0 +1,78 @@
+{% extends "admin/layout.html" %}
+{% block title %}{{ 'Редагувати' if testimonial.id else 'Додати' }} відгук{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <h3><i class="fas fa-star me-2"></i> {{ 'Редагування' if testimonial.id else 'Новий відгук' }}</h3>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="mb-3">
+                    <label class="form-label">Ім'я клієнта *</label>
+                    <input type="text" name="name" class="form-control" value="{{ testimonial.name or '' }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Текст відгуку *</label>
+                    <textarea name="text" class="form-control" rows="4" required>{{ testimonial.text or '' }}</textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Рейтинг (1-5)</label>
+                            <select name="rating" class="form-select">
+                                {% for r in [5,4,3,2,1] %}
+                                <option value="{{ r }}" {% if testimonial.rating == r %}selected{% endif %}>
+                                    {{ '★' * r }}{{ '☆' * (5-r) }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Послуга</label>
+                            <input type="text" name="service" class="form-control" value="{{ testimonial.service or '' }}" placeholder="Наприклад: Б'юті послуги">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Порядок сортування</label>
+                    <input type="number" name="order" class="form-control" value="{{ testimonial.order or 0 }}">
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_approved" class="form-check-input" id="is_approved" {% if testimonial.is_approved %}checked{% endif %}>
+                    <label class="form-check-label" for="is_approved">Опублікувати на сайті</label>
+                </div>
+            </div>
+            
+            <div class="col-md-5">
+                <div class="mb-3">
+                    <label class="form-label">Фото/Аватар</label>
+                    {% if testimonial.avatar %}
+                    <div class="mb-2 text-center">
+                        <img src="{{ url_for('static', filename=testimonial.avatar) }}" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
+                    </div>
+                    {% endif %}
+                    <input type="file" name="avatar" class="form-control" accept="image/*">
+                    <small class="text-muted">Рекомендований розмір: 150x150px</small>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Зберегти
+            </button>
+            <a href="{{ url_for('admin_testimonials') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Назад
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

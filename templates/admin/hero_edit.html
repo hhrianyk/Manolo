@@ -1,0 +1,141 @@
+{% extends "admin/layout.html" %}
+{% block title %}Редагування Hero секції{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <h3><i class="fas fa-home me-2"></i> Hero секція (головний екран)</h3>
+    <p class="text-muted">Налаштування головного банеру сайту</p>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label class="form-label">Заголовок (HTML підтримується)</label>
+                    <input type="text" name="title" class="form-control" value="{{ hero.title if hero else '' }}" required>
+                    <small class="text-muted">Можна використовувати &lt;span class="text-gradient"&gt;текст&lt;/span&gt;</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Підзаголовок (HTML підтримується)</label>
+                    <textarea name="subtitle" class="form-control" rows="3">{{ hero.subtitle if hero else '' }}</textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Кнопка 1 - Текст</label>
+                            <input type="text" name="cta_text" class="form-control" value="{{ hero.cta_text if hero else 'Обрати послугу' }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Кнопка 1 - Посилання</label>
+                            <input type="text" name="cta_link" class="form-control" value="{{ hero.cta_link if hero else '#pricing' }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Кнопка 2 - Текст</label>
+                            <input type="text" name="cta2_text" class="form-control" value="{{ hero.cta2_text if hero else 'Забронювати столик' }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Кнопка 2 - Посилання</label>
+                            <input type="text" name="cta2_link" class="form-control" value="{{ hero.cta2_link if hero else '#contact' }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Статистика (3 показники)</label>
+                    <div id="stats-list">
+                        {% set stats = hero_stats if hero_stats else [{'label': 'Клієнтів', 'number': '1500+'}, {'label': 'Ляльок', 'number': '50+'}, {'label': 'Майстер-класів', 'number': '120+'}] %}
+                        {% for stat in stats %}
+                        <div class="row mb-2 stat-item">
+                            <div class="col-md-5">
+                                <input type="text" name="stat_label[]" class="form-control" placeholder="Назва" value="{{ stat.label }}">
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" name="stat_number[]" class="form-control" placeholder="Число" value="{{ stat.number }}">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-outline-danger remove-stat w-100">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="add-stat">
+                        <i class="fas fa-plus me-1"></i> Додати статистику
+                    </button>
+                    <small class="text-muted d-block mt-1">Максимум 3-4 показники</small>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Фонове зображення</label>
+                    {% if hero and hero.background_image %}
+                    <div class="mb-2 text-center">
+                        <img src="{{ url_for('static', filename=hero.background_image) }}" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                    </div>
+                    {% endif %}
+                    <input type="file" name="background_image" class="form-control" accept="image/*">
+                    <small class="text-muted">Рекомендований розмір: 1920x1080px</small>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Зберегти зміни
+            </button>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary" target="_blank">
+                <i class="fas fa-eye me-2"></i> Переглянути сайт
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('add-stat')?.addEventListener('click', function() {
+        const container = document.getElementById('stats-list');
+        const div = document.createElement('div');
+        div.className = 'row mb-2 stat-item';
+        div.innerHTML = `
+            <div class="col-md-5">
+                <input type="text" name="stat_label[]" class="form-control" placeholder="Назва">
+            </div>
+            <div class="col-md-5">
+                <input type="text" name="stat_number[]" class="form-control" placeholder="Число">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-outline-danger remove-stat w-100">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(div);
+        attachRemoveEvents();
+    });
+    
+    function attachRemoveEvents() {
+        document.querySelectorAll('.remove-stat').forEach(btn => {
+            btn.removeEventListener('click', removeStat);
+            btn.addEventListener('click', removeStat);
+        });
+    }
+    
+    function removeStat(e) {
+        this.closest('.stat-item')?.remove();
+    }
+    
+    attachRemoveEvents();
+</script>
+{% endblock %}

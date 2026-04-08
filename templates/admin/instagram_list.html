@@ -1,0 +1,55 @@
+{% extends "admin/layout.html" %}
+{% block title %}Instagram пости{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="fab fa-instagram me-2"></i> Управління Instagram стрічкою</h3>
+        <a href="{{ url_for('admin_instagram_edit') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i> Додати пост
+        </a>
+    </div>
+    
+    {% if posts %}
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename=post.image) }}" class="card-img-top" alt="Instagram post" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <p class="card-text small">{{ post.caption|truncate(60) }}</p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <i class="fas fa-heart text-danger"></i> {{ post.likes }} лайків<br>
+                            <i class="fas fa-hashtag"></i> {{ post.hashtags|truncate(30) or '-' }}
+                        </small>
+                    </p>
+                    <div class="btn-group w-100">
+                        <a href="{{ url_for('admin_instagram_edit', id=post.id) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('admin_instagram_delete', id=post.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Видалити пост?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    {% if post.is_active %}
+                    <span class="badge bg-success">Активно</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Приховано</span>
+                    {% endif %}
+                    <small class="text-muted float-end">{{ post.date.strftime('%d.%m.%Y') if post.date else '-' }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fab fa-instagram fa-3x text-muted mb-3"></i>
+        <p>Немає Instagram постів</p>
+        <a href="{{ url_for('admin_instagram_edit') }}" class="btn btn-primary">Додати перший пост</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

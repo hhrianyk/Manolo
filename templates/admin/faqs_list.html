@@ -1,0 +1,60 @@
+{% extends "admin/layout.html" %}
+{% block title %}FAQ{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="fas fa-question-circle me-2"></i> Управління питаннями</h3>
+        <a href="{{ url_for('admin_faq_edit') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i> Додати питання
+        </a>
+    </div>
+    
+    {% if faqs %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Питання</th>
+                    <th>Відповідь</th>
+                    <th>Порядок</th>
+                    <th>Статус</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for faq in faqs %}
+                <tr>
+                    <td>{{ faq.id }}</td>
+                    <td><strong>{{ faq.question }}</strong></td>
+                    <td>{{ faq.answer|truncate(100) }}</td>
+                    <td>{{ faq.order }}</td>
+                    <td>
+                        {% if faq.is_active %}
+                        <span class="badge bg-success">Активно</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Приховано</span>
+                        {% endif %}
+                    </td>
+                    <td class="table-actions">
+                        <a href="{{ url_for('admin_faq_edit', id=faq.id) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('admin_faq_delete', id=faq.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Видалити питання?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-question-circle fa-3x text-muted mb-3"></i>
+        <p>Немає доданих питань</p>
+        <a href="{{ url_for('admin_faq_edit') }}" class="btn btn-primary">Додати перше питання</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

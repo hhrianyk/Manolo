@@ -1,0 +1,61 @@
+{# templates/admin/services_list.html #}
+{% extends "admin/layout.html" %}
+{% block title %}Послуги{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="fas fa-concierge-bell me-2"></i> Управління послугами</h3>
+        <a href="{{ url_for('admin_service_edit') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i> Додати послугу
+        </a>
+    </div>
+    
+    {% if services %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Назва</th>
+                    <th>Іконка</th>
+                    <th>Порядок</th>
+                    <th>Статус</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                <tr>
+                    <td>{{ service.id }}</td>
+                    <td><strong>{{ service.title }}</strong><br><small class="text-muted">{{ service.description|truncate(50) }}</small></td>
+                    <td><i class="fas {{ service.icon }}"></i> {{ service.icon }}</td>
+                    <td>{{ service.order }}</td>
+                    <td>
+                        {% if service.is_active %}
+                        <span class="badge bg-success">Активно</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Приховано</span>
+                        {% endif %}
+                    </td>
+                    <td class="table-actions">
+                        <a href="{{ url_for('admin_service_edit', id=service.id) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('admin_service_delete', id=service.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Видалити послугу?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-concierge-bell fa-3x text-muted mb-3"></i>
+        <p>Немає доданих послуг</p>
+        <a href="{{ url_for('admin_service_edit') }}" class="btn btn-primary">Додати першу послугу</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

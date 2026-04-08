@@ -1,0 +1,66 @@
+{% extends "admin/layout.html" %}
+{% block title %}Ціни та пакети{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="fas fa-tags me-2"></i> Управління пакетами</h3>
+        <a href="{{ url_for('admin_pricing_edit') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i> Додати пакет
+        </a>
+    </div>
+    
+    {% if packages %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Назва</th>
+                    <th>Ціна</th>
+                    <th>Період</th>
+                    <th>Бейдж</th>
+                    <th>Рекомендований</th>
+                    <th>Порядок</th>
+                    <th>Статус</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for package in packages %}
+                <tr {% if package.is_featured %}class="table-warning"{% endif %}>
+                    <td>{{ package.id }}</td>
+                    <td><strong>{{ package.name }}</strong><br><small class="text-muted">{{ package.subtitle }}</small></td>
+                    <td><strong>{{ package.currency }}{{ package.price }}</strong></td>
+                    <td>{{ package.period }}</td>
+                    <td>{% if package.badge %}<span class="badge bg-info">{{ package.badge }}</span>{% else %}—{% endif %}</td>
+                    <td>{% if package.is_featured %}<i class="fas fa-star text-warning"></i> Так{% else %}Ні{% endif %}</td>
+                    <td>{{ package.order }}</td>
+                    <td>
+                        {% if package.is_active %}
+                        <span class="badge bg-success">Активно</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Приховано</span>
+                        {% endif %}
+                    </td>
+                    <td class="table-actions">
+                        <a href="{{ url_for('admin_pricing_edit', id=package.id) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('admin_pricing_delete', id=package.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Видалити пакет?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-tags fa-3x text-muted mb-3"></i>
+        <p>Немає доданих пакетів</p>
+        <a href="{{ url_for('admin_pricing_edit') }}" class="btn btn-primary">Додати перший пакет</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

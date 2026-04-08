@@ -1,0 +1,128 @@
+{# templates/admin/service_edit.html #}
+{% extends "admin/layout.html" %}
+{% block title %}{{ 'Редагувати' if service.id else 'Додати' }} послугу{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <h3><i class="fas fa-edit me-2"></i> {{ 'Редагування' if service.id else 'Нова послуга' }}</h3>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label class="form-label">Назва *</label>
+                    <input type="text" name="title" class="form-control" value="{{ service.title or '' }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Опис *</label>
+                    <textarea name="description" class="form-control" rows="4" required>{{ service.description or '' }}</textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Іконка (Font Awesome)</label>
+                            <input type="text" name="icon" class="form-control" value="{{ service.icon or 'fa-spa' }}" placeholder="fa-spa">
+                            <small class="text-muted">Приклад: fa-spa, fa-camera, fa-users</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Порядок сортування</label>
+                            <input type="number" name="order" class="form-control" value="{{ service.order or 0 }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Переваги (список)</label>
+                    <div id="features-list">
+                        {% set features_list = features if features else [] %}
+                        {% for feature in features_list %}
+                        <div class="input-group mb-2">
+                            <input type="text" name="features[]" class="form-control" value="{{ feature }}">
+                            <button type="button" class="btn btn-outline-danger remove-feature">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        {% endfor %}
+                        {% if not features_list %}
+                        <div class="input-group mb-2">
+                            <input type="text" name="features[]" class="form-control" placeholder="Нова перевага">
+                            <button type="button" class="btn btn-outline-danger remove-feature">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="add-feature">
+                        <i class="fas fa-plus me-1"></i> Додати перевагу
+                    </button>
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" {% if service.is_active %}checked{% endif %}>
+                    <label class="form-check-label" for="is_active">Активна послуга</label>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Зображення</label>
+                    {% if service.image %}
+                    <div class="mb-2">
+                        <img src="{{ url_for('static', filename=service.image) }}" class="img-fluid rounded" style="max-height: 200px;">
+                    </div>
+                    {% endif %}
+                    <input type="file" name="image" class="form-control" accept="image/*">
+                    <small class="text-muted">Рекомендований розмір: 800x600px</small>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Зберегти
+            </button>
+            <a href="{{ url_for('admin_services') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Назад
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('add-feature')?.addEventListener('click', function() {
+        const container = document.getElementById('features-list');
+        const div = document.createElement('div');
+        div.className = 'input-group mb-2';
+        div.innerHTML = `
+            <input type="text" name="features[]" class="form-control" placeholder="Нова перевага">
+            <button type="button" class="btn btn-outline-danger remove-feature">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        container.appendChild(div);
+        attachRemoveEvents();
+    });
+    
+    function attachRemoveEvents() {
+        document.querySelectorAll('.remove-feature').forEach(btn => {
+            btn.removeEventListener('click', removeFeature);
+            btn.addEventListener('click', removeFeature);
+        });
+    }
+    
+    function removeFeature(e) {
+        if (document.querySelectorAll('.remove-feature').length > 1) {
+            this.closest('.input-group')?.remove();
+        } else {
+            this.closest('.input-group')?.querySelector('input').value = '';
+        }
+    }
+    
+    attachRemoveEvents();
+</script>
+{% endblock %}

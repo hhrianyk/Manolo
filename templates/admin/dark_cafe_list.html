@@ -1,0 +1,64 @@
+{% extends "admin/layout.html" %}
+{% block title %}Темне кафе{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="fas fa-moon me-2"></i> Управління секцією "Темне кафе"</h3>
+        <a href="{{ url_for('admin_dark_cafe_edit') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i> Додати елемент
+        </a>
+    </div>
+    
+    {% if items %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Іконка</th>
+                    <th>Назва</th>
+                    <th>Опис</th>
+                    <th>Додаткова інфо</th>
+                    <th>Порядок</th>
+                    <th>Статус</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td><i class="fas {{ item.icon }} fa-lg"></i> {{ item.icon }}</td>
+                    <td><strong>{{ item.title }}</strong></td>
+                    <td>{{ item.description|truncate(50) }}</td>
+                    <td>{{ item.extra_info or '-' }}</td>
+                    <td>{{ item.order }}</td>
+                    <td>
+                        {% if item.is_active %}
+                        <span class="badge bg-success">Активно</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Приховано</span>
+                        {% endif %}
+                    </td>
+                    <td class="table-actions">
+                        <a href="{{ url_for('admin_dark_cafe_edit', id=item.id) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('admin_dark_cafe_delete', id=item.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Видалити елемент?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-moon fa-3x text-muted mb-3"></i>
+        <p>Немає доданих елементів</p>
+        <a href="{{ url_for('admin_dark_cafe_edit') }}" class="btn btn-primary">Додати перший елемент</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

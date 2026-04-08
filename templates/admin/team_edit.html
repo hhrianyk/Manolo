@@ -1,0 +1,77 @@
+{% extends "admin/layout.html" %}
+{% block title %}{{ 'Редагувати' if member.id else 'Додати' }} співробітника{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <h3><i class="fas fa-user-edit me-2"></i> {{ 'Редагування' if member.id else 'Новий співробітник' }}</h3>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label class="form-label">Ім'я *</label>
+                    <input type="text" name="name" class="form-control" value="{{ member.name or '' }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Посада *</label>
+                    <input type="text" name="role" class="form-control" value="{{ member.role or '' }}" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Опис</label>
+                    <textarea name="description" class="form-control" rows="4">{{ member.description or '' }}</textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Досвід (років)</label>
+                            <input type="number" name="experience" class="form-control" value="{{ member.experience or '' }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Порядок сортування</label>
+                            <input type="number" name="order" class="form-control" value="{{ member.order or 0 }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Instagram (посилання)</label>
+                    <input type="url" name="social_instagram" class="form-control" value="{{ member.social_instagram or '' }}" placeholder="https://instagram.com/...">
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" {% if member.is_active %}checked{% endif %}>
+                    <label class="form-check-label" for="is_active">Активний співробітник</label>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Фото</label>
+                    {% if member.image %}
+                    <div class="mb-2 text-center">
+                        <img src="{{ url_for('static', filename=member.image) }}" class="img-fluid rounded" style="max-height: 200px;">
+                    </div>
+                    {% endif %}
+                    <input type="file" name="image" class="form-control" accept="image/*">
+                    <small class="text-muted">Рекомендований розмір: 400x500px</small>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Зберегти
+            </button>
+            <a href="{{ url_for('admin_team') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Назад
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

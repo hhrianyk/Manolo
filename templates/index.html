@@ -3,702 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreoArt Studio "Manolo" | Місце, де можливо все 🤍 | Харків</title>
-    <meta name="description" content="Унікальний мультифункціональний простір у серці Харкова: ресторан у темряві, майстер-класи, б'юті послуги, кейтеринг, циклорама">
-    <meta name="keywords" content="CreoArt, Manolo, Харків, ресторан у темряві, майстер-класи, б'юті послуги, кейтеринг, циклорама, арт-простір">
+    <title>{{ site_title }}</title>
+    <meta name="description" content="{{ site_description }}">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
-    <!-- Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤍</text></svg>">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
 </head>
 <body>
-    <!-- Прелоадер -->
-    <div class="preloader" id="preloader">
-        <div class="preloader-content">
-            <div class="gold-loader">
-                <div class="gold-ring"></div>
-                <div class="gold-ring gold-ring-2"></div>
-                <div class="gold-ring gold-ring-3"></div>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader-content">
+            <div class="loader-logo-wrap floating-element">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Manolo Logo">
             </div>
-            <div class="preloader-text">
-                <span class="logo-gold">CreoArt</span>
-                <span class="logo-sub">"Manolo"</span>
+            <div class="loader-bar-bg">
+                <div class="loader-bar-fill"></div>
             </div>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
+            <p class="loader-text">Loading Aesthetics...</p>
         </div>
     </div>
 
-    <!-- Навігація -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#home" class="nav-logo">
-                <!-- PNG логотип -->
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CreoArt Studio Manolo Logo" class="logo-img">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo glow-on-hover">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Manolo" class="logo-img">
                 <div class="logo-text">
-                    <span class="logo-main">CreoArt</span>
-                    <span class="logo-subtext">"Manolo"</span>
+                    <span>CreoArt Studio</span>
+                    <span class="highlight">"Manolo"</span>
                 </div>
             </a>
-
-            <div class="nav-menu" id="navMenu">
-                <a href="#home" class="nav-link active">Головна</a>
-                <a href="#about" class="nav-link">Про студію</a>
-                <a href="#services" class="nav-link">Послуги</a>
-                <a href="#restaurant" class="nav-link">Ресторан</a>
-                <a href="#workshops" class="nav-link">Майстер-класи</a>
-                <a href="#gallery" class="nav-link">Галерея</a>
-                <a href="#contact" class="nav-link">Контакти</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#about" class="nav-link">Про нас</a></li>
+                <li><a href="#services" class="nav-link">Послуги</a></li>
+                <li><a href="#cafe" class="nav-link">Темне кафе</a></li>
+                <li><a href="#pricing" class="nav-link">Тарифи</a></li>
+                <li><a href="#gallery" class="nav-link">Галерея</a></li>
+                <li><a href="#team" class="nav-link">Команда</a></li>
+                <li><a href="#contact" class="nav-link btn-contact">Забронювати</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-
-            <button class="nav-toggle" id="navToggle">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </nav>
 
-    <!-- Герой секція -->
-    <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="gold-grid"></div>
-            <div class="gold-overlay"></div>
-            <!-- Фонове зображення героя -->
-            <img src="{{ url_for('static', filename='images/hero-bg.jpg') }}"
-                 alt="Інтер'єр CreoArt Studio" class="hero-bg-image">
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-bg">
+            <img src="{{ url_for('static', filename=hero.background_image if hero and hero.background_image else 'images/hero-bg.jpg') }}" alt="CreoArt Interior">
+            <div class="overlay"></div>
         </div>
 
-        <div class="hero-content">
-            <div class="hero-titles">
-                <h1 class="hero-title">
-                    <span class="title-line-1">CreoArt Studio</span>
-                    <span class="title-line-2 gold-text">"Manolo"</span>
-                </h1>
-                <h2 class="hero-tagline">
-                    <span class="tagline-text">Місце, де</span>
-                    <span class="tagline-changing">можливо все</span>
-                    <span class="heart">🤍</span>
-                </h2>
-            </div>
-
-            <p class="hero-subtitle">
-                Унікальний мультифункціональний простір у серці Харкова, де мистецтво, гастрономія, творчість та відпочинок поєднуються в одній гармонії
+        <div class="container hero-content">
+            <p class="fade-up">Kharkiv • 2026 • Chernyshevskaya, 30</p>
+            <h1 class="hero-title fade-up delay-1">
+                {% if hero and hero.title %}
+                    {{ hero.title|safe }}
+                {% else %}
+                    Місце, де можливо <span class="text-gradient">все</span>
+                {% endif %}
+            </h1>
+            <p class="fade-up delay-2">
+                {% if hero and hero.subtitle %}
+                    {{ hero.subtitle|safe }}
+                {% else %}
+                    Б'юті. Гастрономія. Арт-простір. <br>Твоя точка тяжіння у центрі міста.
+                {% endif %}
             </p>
 
-            <div class="hero-features">
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <span class="feature-text">Ресторан у темряві</span>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <span class="feature-text">Майстер-класи</span>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-spa"></i>
-                    </div>
-                    <span class="feature-text">Б'юті послуги</span>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-concierge-bell"></i>
-                    </div>
-                    <span class="feature-text">Кейтеринг</span>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <span class="feature-text">Циклорама</span>
-                </div>
-            </div>
-
-            <div class="hero-actions">
-                <a href="#contact" class="btn-gold">
-                    <span>Забронювати</span>
-                    <i class="fas fa-arrow-right"></i>
+            <div class="hero-btns fade-up delay-3">
+                <a href="{{ hero.cta_link if hero else '#pricing' }}" class="btn btn-primary glow-on-hover">
+                    <i class="fas fa-gem"></i> {{ hero.cta_text if hero else 'Обрати послугу' }}
                 </a>
-                <a href="#about" class="btn-outline">
-                    <span>Дізнатися більше</span>
-                    <i class="fas fa-chevron-down"></i>
+                <a href="{{ hero.cta2_link if hero else '#contact' }}" class="btn btn-outline">
+                    <i class="fas fa-calendar-alt"></i> {{ hero.cta2_text if hero else 'Забронювати столик' }}
+                </a>
+                <a href="{{ instagram_url }}" target="_blank" class="btn btn-outline">
+                    <i class="fab fa-instagram"></i> Instagram
                 </a>
             </div>
         </div>
 
-        <div class="hero-scroll">
-            <div class="scroll-icon">
-                <div class="mouse">
-                    <div class="wheel"></div>
+        <div class="scroll-down">
+            <span>Scroll Down</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+
+        <div class="hero-stats">
+            {% for stat in hero_stats %}
+            <div class="stat-item">
+                <span class="stat-number">{{ stat.number }}</span>
+                <span class="stat-label">{{ stat.label }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <div class="grid-2">
+                <div class="about-text reveal-left">
+                    <h2 class="section-title">Філософія <span class="text-chocolate">"Manolo"</span></h2>
+                    <p class="lead">Це не просто студія. Це екосистема для тих, хто цінує якість, час та естетику.</p>
+                    <p>У самому центрі міста Харкова розташовується CreoArt Studio "Manolo". Ім'я "Manolo" символізує новаторство, нестандартність та високий інтелектуальний потенціал.</p>
+
+                    <div class="ceo-block mt-4">
+                        <img src="{{ url_for('static', filename='images/ceo.jpg') }}" alt="Єлизавета Бондаренко" class="ceo-img">
+                        <div>
+                            <h4>Єлизавета Бондаренко</h4>
+                            <span>Засновниця & CEO</span>
+                            <p class="ceo-quote">"Наша мета — створювати простір, де кожен знаходить щось своє."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image reveal-right">
+                    <div class="image-wrapper">
+                        <img src="{{ url_for('static', filename='images/about-studio.jpg') }}" alt="Manolo Interior">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Про студію -->
-    <section id="about" class="section about-section">
+    <!-- Services Section -->
+    <section id="services" class="section services dark-bg">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title gold-border">CreoArt Studio "Manolo"</h2>
-                <p class="section-subtitle">Простір, де поєднується непоєднуване</p>
-            </div>
-
-            <div class="about-content">
-                <div class="about-text">
-                    <div class="intro-block">
-                        <h3>У самому центрі Харкова</h3>
-                        <p>У самому центрі міста Харкова розташовується CreoArt Studio "Manolo". Ім'я "Manolo" символізує новаторство, нестандартність та високий інтелектуальний потенціал.</p>
-
-                        <p>В студії можна скористатися послугами б'юті сфери: масаж, перукар та візаж. Є лаунж-зона кафе зі спокійною, затишною та комфортною атмосферою.</p>
-
-                        <p>У арт просторі є дзеркальний зал для дефіле, фотостудія для портфоліо, одяг від відомого дизайнера. Також можна проводити заходи, події та майстер-класи з послугами кейтерингу.</p>
-                    </div>
-
-                    <div class="concept-grid">
-                        <div class="concept-card">
-                            <div class="card-icon gold-bg">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <h4>Інновація</h4>
-                            <p>Поєднуємо традиційне мистецтво з сучасними технологіями</p>
-                        </div>
-                        <div class="concept-card">
-                            <div class="card-icon gold-bg">
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <h4>Емоції</h4>
-                            <p>Створюємо унікальні враження для кожного гостя</p>
-                        </div>
-                        <div class="concept-card">
-                            <div class="card-icon gold-bg">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <h4>Спільнота</h4>
-                            <p>Об'єднуємо творчих людей у затишному середовищі</p>
-                        </div>
-                    </div>
-
-                    <div class="quote-block">
-                        <i class="fas fa-quote-left quote-icon"></i>
-                        <p class="quote-text">CreoArt Studio "Manolo" – це необмежений затишний простір для творчості, самовираження та спілкування, який на вас чекає.</p>
-                    </div>
-                </div>
-
-                <div class="about-visual">
-                    <div class="visual-card">
-                        <div class="card-image">
-                            <!-- Реальне фото студії -->
-                            <img src="{{ url_for('static', filename='images/about-studio.jpg') }}"
-                                 alt="Інтер'єр CreoArt Studio" class="card-img">
-                        </div>
-                        <div class="card-info">
-                            <h3>Арт-простір</h3>
-                            <p>Дзеркальний зал, фотостудія, лаунж-кафе, б'юті послуги</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Нагорода -->
-            <div class="award-block">
-                <div class="award-icon">
-                    <i class="fas fa-award"></i>
-                </div>
-                <div class="award-content">
-                    <h3>Нагорода MedOrion «The Face of Creative Power»</h3>
-                    <p>У жовтні 2025 року студія «Manolo» стала партнером премії «MedOrion Awards 2025». Це стало особливою подією. Господиня студії Manolo CreoArt – Єлизавета Бондаренко – була нагороджена премією у номінації «Обличчя молодої України, де сила поєднується з мистецтвом».</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Послуги -->
-    <section id="services" class="section services-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title gold-border">Наші послуги</h2>
-                <p class="section-subtitle">Все для вашого комфорту та натхнення</p>
+            <div class="section-header center reveal-bottom">
+                <h2>Наші <span class="text-chocolate">Напрямки</span></h2>
+                <p>Все для вашого ідеального дня</p>
             </div>
 
             <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-image">
-                        <!-- Фото б'юті послуг -->
-                        <img src="{{ url_for('static', filename='images/beauty-services.jpg') }}"
-                             alt="Б'юті послуги: масаж та спа" class="service-img">
+                {% for service in services %}
+                <div class="service-card-premium reveal-bottom">
+                    <div class="card-icon">
+                        <i class="fas {{ service.icon }} fa-3x text-chocolate"></i>
                     </div>
-                    <div class="service-content">
-                        <h3>Б'юті послуги</h3>
-                        <p>Професійний масаж, перукарські послуги та візаж від найкращих майстрів</p>
-                        <ul class="service-list">
-                            <li><i class="fas fa-check gold"></i> Релаксуючий масаж</li>
-                            <li><i class="fas fa-check gold"></i> Стильні стрижки</li>
-                            <li><i class="fas fa-check gold"></i> Вечірній макіяж</li>
-                            <li><i class="fas fa-check gold"></i> Професійний візаж</li>
-                        </ul>
-                        <a href="#contact" class="service-link">
-                            <span>Детальніше</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
+                    <div class="card-body">
+                        <h3>{{ service.title }}</h3>
+                        <p>{{ service.description }}</p>
+                        <div class="service-features">
+                            {% set features = service.features|from_json %}
+                            {% for feature in features %}
+                            <span><i class="fas fa-check"></i> {{ feature }}</span>
+                            {% endfor %}
+                        </div>
+                        <a href="#pricing" class="link-arrow">Детальніше <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-
-                <div class="service-card">
-                    <div class="service-image">
-                        <!-- Фото лаунж-кафе -->
-                        <img src="{{ url_for('static', filename='images/lounge-cafe.jpg') }}"
-                             alt="Лаунж-зона кафе" class="service-img">
-                    </div>
-                    <div class="service-content">
-                        <h3>Лаунж-кафе</h3>
-                        <p>Затишна атмосфера з авторськими напоями, десертами та спокійною музикою</p>
-                        <ul class="service-list">
-                            <li><i class="fas fa-check gold"></i> Авторські напої</li>
-                            <li><i class="fas fa-check gold"></i> Спеціальні десерти</li>
-                            <li><i class="fas fa-check gold"></i> Затишна атмосфера</li>
-                            <li><i class="fas fa-check gold"></i> Спокійна музика</li>
-                        </ul>
-                        <a href="#contact" class="service-link">
-                            <span>Переглянути меню</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-image">
-                        <!-- Фото фотостудії -->
-                        <img src="{{ url_for('static', filename='images/photo-studio.jpg') }}"
-                             alt="Професійна фотостудія з циклорамою" class="service-img">
-                    </div>
-                    <div class="service-content">
-                        <h3>Фотостудія</h3>
-                        <p>Професійна циклорама, дзеркальний зал та обладнання для зйомок будь-якого формату</p>
-                        <ul class="service-list">
-                            <li><i class="fas fa-check gold"></i> Циклорама 6×8 м</li>
-                            <li><i class="fas fa-check gold"></i> Дзеркальний зал</li>
-                            <li><i class="fas fa-check gold"></i> Професійне освітлення</li>
-                            <li><i class="fas fa-check gold"></i> Прокат обладнання</li>
-                        </ul>
-                        <a href="#contact" class="service-link">
-                            <span>Забронювати</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
 
-    <!-- Ресторан у темряві -->
-    <section id="restaurant" class="section restaurant-section dark-bg">
+    <!-- Dark Cafe Section -->
+    <section id="cafe" class="section dark-cafe-section">
+        <div class="cafe-bg"></div>
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title gold-border">Ресторан у темряві | Кіно</h2>
-                <p class="section-subtitle">Гастрономічне кіно: досвід для всіх органів чуття</p>
+            <div class="section-header center reveal-bottom">
+                <h2>Кафе у <span class="text-chocolate">темряві</span> & Кіно</h2>
+                <p>Унікальний сенсорний досвід</p>
             </div>
 
-            <div class="restaurant-content">
-                <div class="restaurant-image">
-                    <div class="image-frame gold-frame">
-                        <!-- Фото ресторану -->
-                        <img src="{{ url_for('static', filename='images/dark-restaurant.jpg') }}"
-                             alt="Ресторан у темряві з кінопоказом" class="restaurant-img">
+            <div class="cafe-grid">
+                {% for item in dark_cafe %}
+                <div class="cafe-item reveal-bottom">
+                    <div class="cafe-icon mb-3">
+                        <i class="fas {{ item.icon }} fa-3x text-chocolate"></i>
                     </div>
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.description }}</p>
+                    {% if item.extra_info %}
+                    <div class="cafe-time">
+                        <i class="far fa-clock"></i> {{ item.extra_info }}
+                    </div>
+                    {% endif %}
                 </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
-                <div class="restaurant-info">
-                    <h3>Унікальний сенсорний досвід</h3>
-                    <p>Поєднуємо витончену авторську кухню з артхаусним кінематографом. Кожен фільм супроводжується спеціальним меню, розробленим нашим шеф-кухарем.</p>
+    <!-- Pricing Section -->
+    <section id="pricing" class="section pricing">
+        <div class="container">
+            <div class="section-header center reveal-bottom">
+                <h2>Пакети <span class="text-chocolate">Послуг</span></h2>
+                <p>Оберіть свій рівень перевтілення</p>
+            </div>
 
-                    <div class="restaurant-features">
-                        <div class="feature">
-                            <div class="feature-icon gold-bg">
-                                <i class="fas fa-moon"></i>
-                            </div>
-                            <div class="feature-text">
-                                <h4>Повна темрява</h4>
-                                <p>Ваші смакові рецептори працюють на повну</p>
-                            </div>
-                        </div>
-                        <div class="feature">
-                            <div class="feature-icon gold-bg">
-                                <i class="fas fa-headphones"></i>
-                            </div>
-                            <div class="feature-text">
-                                <h4>Об'ємний звук</h4>
-                                <p>Повне занурення в кінематографічний світ</p>
-                            </div>
-                        </div>
+            <div class="pricing-grid">
+                {% for package in pricing %}
+                <div class="pricing-card arch-card-enhanced reveal-bottom {% if package.is_featured %}featured{% endif %}">
+                    <div class="card-icon-top"><i class="far {% if package.is_featured %}fa-star{% else %}fa-circle{% endif %} fa-2x"></i></div>
+                    <h3 class="package-title">{{ package.name }}</h3>
+                    <p class="package-subtitle">{{ package.subtitle }}</p>
+
+                    <ul class="package-list">
+                        {% set features = package.features|from_json %}
+                        {% for feature in features %}
+                        <li><span class="dot"></span>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="price-block">
+                        <span class="currency">{{ package.currency }}</span>{{ package.price }}
+                        <span class="period">/ {{ package.period }}</span>
                     </div>
 
-                    <div class="schedule">
-                        <h4>Розклад кінопоказів:</h4>
-                        <div class="schedule-grid">
-                            <div class="schedule-item">
-                                <span class="day">Четвер</span>
-                                <span class="time gold">19:00</span>
-                                <span class="genre">Артхаус</span>
-                            </div>
-                            <div class="schedule-item">
-                                <span class="day">П'ятниця</span>
-                                <span class="time gold">20:00</span>
-                                <span class="genre">Класика</span>
-                            </div>
-                            <div class="schedule-item">
-                                <span class="day">Субота</span>
-                                <span class="time gold">21:00</span>
-                                <span class="genre">Сучасне</span>
-                            </div>
-                        </div>
-                    </div>
+                    {% if package.badge %}
+                    <div class="popular-badge">{{ package.badge }}</div>
+                    {% endif %}
 
-                    <a href="#contact" class="btn-gold">
-                        <span>Забронювати столик</span>
-                        <i class="fas fa-calendar-check"></i>
+                    <a href="#contact" class="btn btn-primary full-width">
+                        <i class="fas {% if package.is_featured %}fa-crown{% else %}fa-calendar-check{% endif %}"></i>
+                        Записатись
                     </a>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </section>
 
-    <!-- Майстер-класи -->
-    <section id="workshops" class="section workshops-section">
+    <!-- Gallery Section -->
+    <section id="gallery" class="section gallery dark-bg">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title gold-border">Майстер-класи</h2>
-                <p class="section-subtitle">Навчіться створювати красу своїми руками</p>
-            </div>
-
-            <div class="workshops-grid">
-                <div class="workshop-card">
-                    <div class="workshop-header">
-                        <div class="workshop-icon gold-bg">
-                            <i class="fas fa-paint-brush"></i>
-                        </div>
-                        <div class="workshop-badge">Популярно</div>
-                    </div>
-                    <div class="workshop-content">
-                        <h3>Живопис</h3>
-                        <p>Сучасні техніки малювання для дорослих та дітей. Всі матеріали включено.</p>
-                        <div class="workshop-details">
-                            <div class="detail">
-                                <i class="far fa-clock gold"></i>
-                                <span>2 години</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-users gold"></i>
-                                <span>до 12 осіб</span>
-                            </div>
-                        </div>
-                        <div class="workshop-price">
-                            <span class="price gold">₴ 600</span>
-                        </div>
-                        <button class="btn-gold workshop-btn">
-                            <span>Записатися</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="workshop-card">
-                    <div class="workshop-header">
-                        <div class="workshop-icon gold-bg">
-                            <i class="fas fa-cocktail"></i>
-                        </div>
-                        <div class="workshop-badge">Новинка</div>
-                    </div>
-                    <div class="workshop-content">
-                        <h3>Міксологія</h3>
-                        <p>Навчіться готувати авторські коктейлі під керівництвом професійного бармена.</p>
-                        <div class="workshop-details">
-                            <div class="detail">
-                                <i class="far fa-clock gold"></i>
-                                <span>2.5 години</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-users gold"></i>
-                                <span>до 6 осіб</span>
-                            </div>
-                        </div>
-                        <div class="workshop-price">
-                            <span class="price gold">₴ 1,200</span>
-                        </div>
-                        <button class="btn-gold workshop-btn">
-                            <span>Записатися</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="workshop-card">
-                    <div class="workshop-header">
-                        <div class="workshop-icon gold-bg">
-                            <i class="fas fa-tshirt"></i>
-                        </div>
-                    </div>
-                    <div class="workshop-content">
-                        <h3>Дизайн одягу</h3>
-                        <p>Майстер-клас з дизайну одягу від відомого українського дизайнера.</p>
-                        <div class="workshop-details">
-                            <div class="detail">
-                                <i class="far fa-clock gold"></i>
-                                <span>3 години</span>
-                            </div>
-                            <div class="detail">
-                                <i class="fas fa-users gold"></i>
-                                <span>до 10 осіб</span>
-                            </div>
-                        </div>
-                        <div class="workshop-price">
-                            <span class="price gold">₴ 900</span>
-                        </div>
-                        <button class="btn-gold workshop-btn">
-                            <span>Записатися</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="workshop-cta">
-                <p>Хочете організувати корпоративний майстер-клас або приватну подію?</p>
-                <a href="#contact" class="btn-outline">
-                    <span>Зв'яжіться з нами</span>
-                    <i class="fas fa-calendar-alt"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Галерея -->
-    <section id="gallery" class="section gallery-section dark-bg">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title gold-border">Галерея</h2>
-                <p class="section-subtitle">Мигтливі моменти нашого простору</p>
+            <div class="section-header center reveal-bottom">
+                <h2>Manolo <span class="text-chocolate">Moments</span></h2>
+                <p>Слідкуйте за нами в <a href="{{ instagram_url }}" target="_blank" class="text-chocolate">@manolo_creoart_kh</a></p>
             </div>
 
             <div class="gallery-grid">
-                <div class="gallery-item">
-                    <div class="gallery-image">
-                        <!-- Фото інтер'єру -->
-                        <img src="{{ url_for('static', filename='images/gallery-interior.jpg') }}"
-                             alt="Затишний інтер'єр студії" class="gallery-img">
-                    </div>
-                    <div class="gallery-info">
-                        <h3>Інтер'єр студії</h3>
-                        <p>Затишний простір для творчості</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-image">
-                        <!-- Фото ресторану -->
-                        <img src="{{ url_for('static', filename='images/gallery-restaurant.jpg') }}"
-                             alt="Гастрономічні враження в ресторані" class="gallery-img">
-                    </div>
-                    <div class="gallery-info">
-                        <h3>Ресторан</h3>
-                        <p>Гастрономічні враження</p>
+                {% for image in gallery %}
+                <div class="gallery-item reveal-scale">
+                    <img src="{{ url_for('static', filename=image.image) }}" alt="{{ image.title }}" loading="lazy">
+                    <div class="gallery-overlay">
+                        <div class="overlay-content">
+                            <i class="fab fa-instagram fa-2x"></i>
+                            <p>{{ image.title }}</p>
+                            <span class="likes"><i class="fas fa-heart"></i> {{ image.likes }}</span>
+                        </div>
                     </div>
                 </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-image">
-                        <!-- Фото майстер-класу -->
-                        <img src="{{ url_for('static', filename='images/gallery-workshop.jpg') }}"
-                             alt="Творчий процес на майстер-класі" class="gallery-img">
-                    </div>
-                    <div class="gallery-info">
-                        <h3>Майстер-класи</h3>
-                        <p>Творчі процеси</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-image">
-                        <!-- Фото дзеркального залу -->
-                        <img src="{{ url_for('static', filename='images/gallery-mirror-hall.jpg') }}"
-                             alt="Дзеркальний зал для дефіле" class="gallery-img">
-                    </div>
-                    <div class="gallery-info">
-                        <h3>Дзеркальний зал</h3>
-                        <p>Простір для дефіле та репетицій</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
 
-    <!-- Кейтеринг -->
-    <section id="catering" class="section catering-section">
+    <!-- Team Section -->
+    <section id="team" class="section team">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title gold-border">Кейтеринг</h2>
-                <p class="section-subtitle">Гастрономічне забезпечення ваших подій</p>
+            <div class="section-header center reveal-bottom">
+                <h2>Команда <span class="text-chocolate">Manolo</span></h2>
+                <p>Професіонали, закохані у свою справу</p>
             </div>
 
-            <div class="catering-content">
-                <div class="catering-info">
-                    <h3>Організація заходів під ключ</h3>
-                    <p>Повний цикл організації вашої події: від розробки меню до професійного обслуговування.</p>
-
-                    <div class="features-list">
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle gold"></i>
-                            <span>Індивідуальне меню</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle gold"></i>
-                            <span>Професійне обслуговування</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle gold"></i>
-                            <span>Оформлення та декор</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle gold"></i>
-                            <span>Авторські коктейлі</span>
+            <div class="team-grid">
+                {% for member in team %}
+                <div class="team-card-styled reveal-bottom">
+                    <div class="team-photo-arch">
+                        <img src="{{ url_for('static', filename=member.image if member.image else 'images/placeholder.jpg') }}" alt="{{ member.name }}" loading="lazy">
+                        <div class="team-social">
+                            {% if member.social_instagram %}
+                            <a href="{{ member.social_instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                            {% endif %}
                         </div>
                     </div>
-                </div>
-
-                <div class="catering-packages">
-                    <div class="package-card">
-                        <div class="package-header">
-                            <h4>Базовий</h4>
-                            <div class="package-price gold">від ₴ 15,000</div>
+                    <div class="team-content-box">
+                        <h3>{{ member.name }}</h3>
+                        <span class="team-role">{{ member.role }}</span>
+                        <p class="team-desc">{{ member.description }}</p>
+                        {% if member.experience %}
+                        <div class="team-exp">
+                            <i class="far fa-clock"></i> {{ member.experience }} років досвіду
                         </div>
-                        <div class="package-body">
-                            <ul>
-                                <li><i class="fas fa-check gold"></i> Фуршет на 20 осіб</li>
-                                <li><i class="fas fa-check gold"></i> Безкоштовні напої</li>
-                                <li><i class="fas fa-check gold"></i> Базове обслуговування</li>
-                                <li><i class="fas fa-check gold"></i> 4 години</li>
-                            </ul>
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </section>
 
-    <!-- Контакти -->
-    <section id="contact" class="section contact-section dark-bg">
+    <!-- FAQ Section -->
+    <section class="section faq dark-bg">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title gold-border">Контакти</h2>
-                <p class="section-subtitle">Ми завжди раді новим зустрічам та співпраці</p>
+            <div class="section-header center">
+                <h2>Часті <span class="text-chocolate">Питання</span></h2>
+                <p>Відповіді на найпопулярніші запитання</p>
             </div>
 
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="info-block">
-                        <div class="info-icon gold-bg">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
+            <div class="faq-container">
+                {% for faq in faqs %}
+                <div class="faq-item reveal-bottom">
+                    <div class="faq-question" data-faq="{{ faq.id }}">
+                        <h4>{{ faq.question }}</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" id="faq-{{ faq.id }}">
+                        <p>{{ faq.answer }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact dark-bg">
+        <div class="container">
+            <div class="grid-2">
+                <div class="contact-info reveal-left">
+                    <h2>Зв'язок з <span class="text-chocolate">нами</span></h2>
+                    <p class="lead">Ми завжди раді бачити вас. Завітайте на каву або процедури.</p>
+
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div class="info-text">
-                            <h3>Адреса</h3>
-                            <p>м. Харків, центр міста</p>
-                            <p class="info-note">Точну адресу уточнюйте за телефоном</p>
+                            <h4>Адреса</h4>
+                            <p>{{ address }}</p>
                         </div>
                     </div>
 
-                    <div class="info-block">
-                        <div class="info-icon gold-bg">
-                            <i class="fas fa-phone"></i>
-                        </div>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
                         <div class="info-text">
-                            <h3>Телефон</h3>
-                            <p>+38 (050) 123-45-67</p>
-                            <p>+38 (096) 765-43-21</p>
+                            <h4>Телефон</h4>
+                            <p>{{ phone }}</p>
                         </div>
                     </div>
 
-                    <div class="info-block">
-                        <div class="info-icon gold-bg">
-                            <i class="fas fa-clock"></i>
-                        </div>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="far fa-clock"></i></div>
                         <div class="info-text">
-                            <h3>Графік роботи</h3>
-                            <p>Понеділок - П'ятниця: 10:00 - 22:00</p>
-                            <p>Субота - Неділя: 11:00 - 23:00</p>
+                            <h4>Години роботи</h4>
+                            <p>{{ work_hours }}</p>
+                            <p class="text-chocolate">{{ dark_cafe_hours }}</p>
                         </div>
-                    </div>
-
-                    <div class="social-links">
-                        <a href="https://www.instagram.com/manolo_creoart_kh/" class="social-link" target="_blank">
-                            <div class="social-icon gold-border">
-                                <i class="fab fa-instagram"></i>
-                            </div>
-                            <span>Instagram</span>
-                        </a>
-                        <a href="#" class="social-link">
-                            <div class="social-icon gold-border">
-                                <i class="fab fa-facebook-f"></i>
-                            </div>
-                            <span>Facebook</span>
-                        </a>
-                        <a href="#" class="social-link">
-                            <div class="social-icon gold-border">
-                                <i class="fab fa-telegram"></i>
-                            </div>
-                            <span>Telegram</span>
-                        </a>
                     </div>
                 </div>
 
-                <div class="contact-form">
+                <div class="contact-form-wrapper reveal-right">
                     <div class="form-header">
-                        <h3>Надішліть запит</h3>
-                        <p>Заповніть форму і ми зв'яжемося з вами протягом дня</p>
+                        <h3>Заявка on-line</h3>
+                        <p>Заповніть форму, і ми передзвонимо протягом 30 хвилин</p>
                     </div>
 
                     <form id="contactForm">
                         <div class="form-group">
-                            <input type="text" placeholder="Ваше ім'я" required>
-                            <div class="input-line gold-bg"></div>
+                            <input type="text" name="name" placeholder="Ім'я *" required>
+                            <span class="input-line"></span>
                         </div>
-
                         <div class="form-group">
-                            <input type="tel" placeholder="Номер телефону" required>
-                            <div class="input-line gold-bg"></div>
+                            <input type="tel" name="phone" placeholder="Телефон *" required>
+                            <span class="input-line"></span>
                         </div>
-
                         <div class="form-group">
-                            <select required>
-                                <option value="" disabled selected>Оберіть послугу</option>
-                                <option value="restaurant">Ресторан у темряві</option>
-                                <option value="workshop">Майстер-клас</option>
+                            <input type="email" name="email" placeholder="Email">
+                            <span class="input-line"></span>
+                        </div>
+                        <div class="form-group">
+                            <select name="service" required>
+                                <option value="" disabled selected>Що вас цікавить? *</option>
                                 <option value="beauty">Б'юті послуги</option>
-                                <option value="catering">Кейтеринг</option>
-                                <option value="cyclorama">Фотостудія</option>
-                                <option value="cafe">Лаунж-кафе</option>
+                                <option value="cafe">Бронь столика в кафе</option>
+                                <option value="dark-cafe">Темне кафе</option>
+                                <option value="photo">Фотосесія</option>
+                                <option value="event">Оренда простору</option>
+                                <option value="other">Інше</option>
                             </select>
-                            <div class="input-line gold-bg"></div>
+                            <span class="input-line"></span>
                         </div>
-
                         <div class="form-group">
-                            <textarea placeholder="Ваше повідомлення..." rows="4" required></textarea>
-                            <div class="input-line gold-bg"></div>
+                            <input type="date" name="date" placeholder="Бажана дата">
+                            <span class="input-line"></span>
                         </div>
-
-                        <button type="submit" class="btn-gold">
-                            <span>Надіслати запит</span>
-                            <i class="fas fa-paper-plane"></i>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Додаткові побажання" rows="3"></textarea>
+                            <span class="input-line"></span>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input type="checkbox" id="privacy" name="privacy" required>
+                            <label for="privacy">Я згоден з обробкою персональних даних</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary full-width">
+                            <i class="fas fa-paper-plane"></i> Надіслати заявку
                         </button>
                     </form>
                 </div>
@@ -706,66 +406,109 @@
         </div>
     </section>
 
-    <!-- Футер -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <!-- PNG логотип у футері -->
-                        <img src="{{ url_for('static', filename='images/logo.png') }}"
-                             alt="CreoArt Studio Manolo Logo" class="footer-logo-img">
-                        <div class="footer-logo-text">
-                            <h3>CreoArt Studio "Manolo"</h3>
-                            <p>Місце, де можливо все 🤍</p>
-                        </div>
-                    </div>
-                    <p class="footer-description">
-                        Унікальний мультифункціональний простір у серці Харкова
-                    </p>
-                </div>
-
-                <div class="footer-links">
-                    <div class="link-group">
-                        <h4>Навігація</h4>
-                        <a href="#home">Головна</a>
-                        <a href="#about">Про студію</a>
-                        <a href="#services">Послуги</a>
-                        <a href="#restaurant">Ресторан</a>
-                    </div>
-
-                    <div class="link-group">
-                        <h4>Послуги</h4>
-                        <a href="#workshops">Майстер-класи</a>
-                        <a href="#gallery">Галерея</a>
-                        <a href="#catering">Кейтеринг</a>
-                        <a href="#contact">Контакти</a>
-                    </div>
-
-                    <div class="link-group">
-                        <h4>Додатково</h4>
-                        <a href="#contact">Забронювати</a>
-                        <a href="#contact">Записатися</a>
-                        <a href="#contact">FAQ</a>
-                        <a href="#contact">Співпраця</a>
+                <div class="footer-logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Manolo" class="footer-logo-img">
+                    <div class="footer-logo-text">
+                        <h3>CreoArt Studio "Manolo"</h3>
+                        <p class="tagline">Місце, де можливо все 🤍</p>
                     </div>
                 </div>
             </div>
-
             <div class="footer-bottom">
                 <div class="copyright">
-                    <p>&copy; 2026 CreoArt Studio "Manolo". Всі права захищено.</p>
-                    <p>Створено з <i class="fas fa-heart gold"></i> для творчих людей</p>
+                    &copy; 2026 CreoArt Studio "Manolo". All rights reserved.
                 </div>
-
-                <a href="#home" class="back-to-top">
-                    <i class="fas fa-chevron-up"></i>
-                </a>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <button id="backToTop" class="back-to-top"><i class="fas fa-chevron-up"></i></button>
+
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = document.getElementById(`faq-${question.dataset.faq}`);
+                const isOpen = answer.classList.contains('open');
+
+                document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+                document.querySelectorAll('.faq-question').forEach(q => q.classList.remove('active'));
+
+                if (!isOpen) {
+                    answer.classList.add('open');
+                    question.classList.add('active');
+                }
+            });
+        });
+
+        // Contact form submission
+        document.getElementById('contactForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert('Дякуємо! Вашу заявку прийнято.');
+                    this.reset();
+                } else {
+                    alert('Сталася помилка. Спробуйте ще раз.');
+                }
+            } catch (error) {
+                alert('Помилка з\'єднання. Спробуйте пізніше.');
+            }
+        });
+
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.preloader')?.classList.add('fade-out');
+            }, 1000);
+        });
+
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar?.classList.add('scrolled');
+            } else {
+                navbar?.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger?.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu?.classList.toggle('active');
+        });
+
+        // Back to top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop?.classList.add('visible');
+            } else {
+                backToTop?.classList.remove('visible');
+            }
+        });
+
+        backToTop?.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html>

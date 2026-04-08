@@ -1,0 +1,80 @@
+{% extends "admin/layout.html" %}
+{% block title %}Налаштування сайту{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <h3><i class="fas fa-cog me-2"></i> Загальні налаштування</h3>
+    
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Назва сайту (title)</label>
+                    <input type="text" name="site_title" class="form-control" value="{{ settings.site_title }}">
+                    <small class="text-muted">Відображається у вкладці браузера</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Опис сайту (meta description)</label>
+                    <textarea name="site_description" class="form-control" rows="3">{{ settings.site_description }}</textarea>
+                    <small class="text-muted">Для SEO</small>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Адреса</label>
+                    <input type="text" name="address" class="form-control" value="{{ settings.address }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Телефон</label>
+                    <input type="text" name="phone" class="form-control" value="{{ settings.phone }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" value="{{ settings.email }}">
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Години роботи</label>
+                    <input type="text" name="work_hours" class="form-control" value="{{ settings.work_hours }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Години роботи темного кафе</label>
+                    <input type="text" name="dark_cafe_hours" class="form-control" value="{{ settings.dark_cafe_hours }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Instagram URL</label>
+                    <input type="url" name="instagram_url" class="form-control" value="{{ settings.instagram_url }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Telegram URL</label>
+                    <input type="url" name="telegram_url" class="form-control" value="{{ settings.telegram_url }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Facebook URL</label>
+                    <input type="url" name="facebook_url" class="form-control" value="{{ settings.facebook_url }}">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">TikTok URL</label>
+                    <input type="url" name="tiktok_url" class="form-control" value="{{ settings.tiktok_url }}">
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i> Зберегти налаштування
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

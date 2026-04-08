@@ -1,0 +1,89 @@
+{% extends "admin/layout.html" %}
+{% block title %}Заявки{% endblock %}
+{% block content %}
+<div class="admin-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="fas fa-envelope me-2"></i> Заявки від клієнтів</h3>
+        <span class="badge bg-primary">Всього: {{ requests|length }}</span>
+    </div>
+    
+    {% if requests %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Дата</th>
+                    <th>Ім'я</th>
+                    <th>Телефон</th>
+                    <th>Email</th>
+                    <th>Послуга</th>
+                    <th>Статус</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr {% if not req.is_read %}class="table-warning"{% endif %}>
+                    <td>{{ req.id }}</td>
+                    <td>{{ req.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td><strong>{{ req.name }}</strong></td>
+                    <td>{{ req.phone }}</td>
+                    <td>{{ req.email or '-' }}</td>
+                    <td>{{ req.service or '-' }}</td>
+                    <td>
+                        {% if req.is_read %}
+                        <span class="badge bg-secondary">Прочитано</span>
+                        {% else %}
+                        <span class="badge bg-warning">Нове</span>
+                        {% endif %}
+                    </td>
+                    <td class="table-actions">
+                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#modal-{{ req.id }}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <a href="{{ url_for('admin_contact_read', id=req.id) }}" class="btn btn-sm btn-success">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a href="{{ url_for('admin_contact_delete', id=req.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Видалити заявку?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="modal-{{ req.id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Заявка від {{ req.name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Ім'я:</strong> {{ req.name }}</p>
+                                <p><strong>Телефон:</strong> {{ req.phone }}</p>
+                                <p><strong>Email:</strong> {{ req.email or '-' }}</p>
+                                <p><strong>Послуга:</strong> {{ req.service or '-' }}</p>
+                                <p><strong>Бажана дата:</strong> {{ req.date or '-' }}</p>
+                                <p><strong>Повідомлення:</strong></p>
+                                <p class="border rounded p-2 bg-light">{{ req.message or '-' }}</p>
+                                <p><strong>Дата заявки:</strong> {{ req.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-envelope-open fa-3x text-muted mb-3"></i>
+        <p>Немає заявок</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
