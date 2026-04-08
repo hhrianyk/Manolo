@@ -8,16 +8,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'manolo-secret-key-2026-change-in-production'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///manolo.db'
+
+# Конфігурація для Railway
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'manolo-secret-key-2026')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///manolo.db').replace('postgres://',
+                                                                                                      'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-# Create directories
+# Створення директорій
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 os.makedirs('static/images', exist_ok=True)
 os.makedirs('static/css', exist_ok=True)
+os.makedirs('static/js', exist_ok=True)
+os.makedirs('instance', exist_ok=True)
 
 db = SQLAlchemy(app)
 
@@ -25,7 +30,6 @@ db = SQLAlchemy(app)
 # ==================== CUSTOM JINJA FILTERS ====================
 
 def from_json(value):
-    """Convert JSON string to Python object"""
     if not value:
         return []
     try:
@@ -34,18 +38,7 @@ def from_json(value):
         return []
 
 
-def to_json(value):
-    """Convert Python object to JSON string"""
-    if value is None:
-        return '[]'
-    try:
-        return json.dumps(value, ensure_ascii=False)
-    except:
-        return '[]'
-
-
 app.jinja_env.filters['from_json'] = from_json
-app.jinja_env.filters['to_json'] = to_json
 
 
 # ==================== LOGIN DECORATOR ====================
@@ -249,8 +242,7 @@ def index():
                            instagram_posts=instagram_posts,
                            hero_stats=hero_stats,
                            site_title=get_setting('site_title', 'CreoArt Studio "Manolo" | Харків 2026'),
-                           site_description=get_setting('site_description',
-                                                        'CreoArt Studio Manolo - простір краси, смаку та творчості'),
+                           site_description=get_setting('site_description', 'CreoArt Studio Manolo - простір краси'),
                            address=get_setting('address', 'Chernyshevskaya, 30, Kharkiv'),
                            phone=get_setting('phone', '+38 (050) 123-45-67'),
                            email=get_setting('email', 'info@manolo-creoart.com'),
@@ -311,8 +303,6 @@ def admin_logout():
     flash('Ви вийшли з адмін-панелі', 'info')
     return redirect(url_for('admin_login'))
 
-
-# ==================== ADMIN DASHBOARD ====================
 
 @app.route('/admin')
 @login_required
@@ -1059,4 +1049,5 @@ with app.app_context():
     init_db()
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
